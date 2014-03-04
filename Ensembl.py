@@ -1,4 +1,3 @@
-
 import MySQLdb,re
 
 from Bio.Seq import Seq
@@ -300,7 +299,7 @@ class Genome(object):
       """using name of gene obtained from the Ensembl database. Returns SeqRecord object of gene coordinates."""
       assert(type(name)==str)
       query = "select gene.stable_id from gene, object_xref, xref, external_db \
-		where gene.gene_id = object_xref.ensembl_id  and   object_xref.ensembl_object_type = 'Gene \
+		where gene.gene_id = object_xref.ensembl_id  and   object_xref.ensembl_object_type = 'Gene' \
 		and object_xref.xref_id =   xref.xref_id and xref.external_db_id = external_db.external_db_id \
 		and xref.display_label = '%s' group by gene.stable_id ;" % name
       self.cursor.execute(query)
@@ -312,7 +311,7 @@ class Genome(object):
 
       g=[]
       for stable_id in results:
-	g.append(self.get_gene_by_stable_id(stable_id))
+	g.append(self.get_gene_by_stable_id(stable_id[0]))
 
       return g
       
